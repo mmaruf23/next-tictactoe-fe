@@ -1,17 +1,36 @@
 import { useEffect, useState } from 'react';
 
-export const useUser = () => {
-  const [username, setUsername] = useState<string>('');
-  useEffect(() => {
-    let user = localStorage.getItem('username');
+export type Data = {
+  username?: string;
+  clientId?: string;
+};
 
-    if (!user) {
-      user = `Guest${Math.floor(Math.random() * 1000)}`;
-      localStorage.setItem('username', user);
+export const useUser = () => {
+  const [user, setUser] = useState<Data | null>(null);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const dataRaw = localStorage.getItem('data');
+
+    if (!dataRaw) {
+      const newData: Data = {
+        username: `Guest${Math.floor(Math.random() * 1000)}`,
+      };
+
+      localStorage.setItem('data', JSON.stringify(newData));
+      setUser(newData);
+      return;
     }
 
-    setUsername(user);
+    try {
+      const data: Data = JSON.parse(dataRaw);
+      setUser(data);
+    } catch (e) {
+      console.error('Failed to parse user data:', e);
+      setUser(null);
+    }
   }, []);
 
-  return username;
+  return user;
 };

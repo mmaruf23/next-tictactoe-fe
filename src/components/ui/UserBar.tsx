@@ -1,4 +1,3 @@
-import { useUser } from '@/hooks/UserHooks';
 import {
   Dialog,
   DialogPanel,
@@ -6,8 +5,9 @@ import {
   Transition,
   TransitionChild,
 } from '@headlessui/react';
-import { Fragment } from 'react';
+import { Fragment, useContext } from 'react';
 import UserForm from './UserForm';
+import { SocketContext } from '@/contexts/SocketContext';
 
 type UserBarProps = {
   isOpen: boolean;
@@ -15,6 +15,7 @@ type UserBarProps = {
 };
 
 const UserBar = ({ isOpen, setClose }: UserBarProps) => {
+  const userData = useContext(SocketContext);
   return (
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog as="div" className="relative z-50" onClose={setClose}>
@@ -43,7 +44,8 @@ const UserBar = ({ isOpen, setClose }: UserBarProps) => {
         >
           <DialogPanel className="fixed top-0 right-0 h-full w-64 bg-white/80 p-6 shadow-lg">
             <DialogTitle className="text-lg font-bold mb-4">
-              {useUser()}
+              {userData?.user?.username || ''}
+
               <p className="font-mono text-sm font-normal">ID :</p>
             </DialogTitle>
             <div className="border">
