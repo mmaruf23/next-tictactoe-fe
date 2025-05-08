@@ -1,13 +1,17 @@
-import React, { useRef } from 'react';
+import { SocketContext } from '@/hooks/ContextProvider';
+import React, { useContext, useRef } from 'react';
 
 const UserForm = () => {
+  const socketContext = useContext(SocketContext);
   const userRef = useRef<HTMLInputElement>(null);
+  console.log('setelah sampe userForm:', socketContext);
 
   const handleSave = () => {
     if (userRef.current) {
-      localStorage.setItem('username', userRef.current?.value.trim());
+      socketContext?.socket?.emit('update-name', userRef.current.value.trim());
     }
   };
+
   return (
     <>
       <div className="mt-8">

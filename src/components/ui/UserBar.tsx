@@ -7,7 +7,7 @@ import {
 } from '@headlessui/react';
 import { Fragment, useContext } from 'react';
 import UserForm from './UserForm';
-import { SocketContext } from '@/contexts/SocketContext';
+import { SocketContext } from '@/hooks/ContextProvider';
 
 type UserBarProps = {
   isOpen: boolean;
@@ -15,7 +15,7 @@ type UserBarProps = {
 };
 
 const UserBar = ({ isOpen, setClose }: UserBarProps) => {
-  const userData = useContext(SocketContext);
+  const context = useContext(SocketContext);
   return (
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog as="div" className="relative z-50" onClose={setClose}>
@@ -44,9 +44,11 @@ const UserBar = ({ isOpen, setClose }: UserBarProps) => {
         >
           <DialogPanel className="fixed top-0 right-0 h-full w-64 bg-white/80 p-6 shadow-lg">
             <DialogTitle className="text-lg font-bold mb-4">
-              {userData?.user?.username || ''}
+              {context?.user?.username || ''}
 
-              <p className="font-mono text-sm font-normal">ID :</p>
+              <p className="font-mono text-sm font-normal">
+                {/* ID : {user?.clientId} */}
+              </p>
             </DialogTitle>
             <div className="border">
               <UserForm />

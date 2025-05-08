@@ -1,9 +1,9 @@
 import React, { useContext, useState } from 'react';
 import UserBar from './UserBar';
-import { SocketContext } from '@/contexts/SocketContext';
+import { SocketContext } from '@/hooks/ContextProvider';
 
 const Navbar = () => {
-  const userData = useContext(SocketContext);
+  const context = useContext(SocketContext);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   return (
     <>
@@ -15,7 +15,7 @@ const Navbar = () => {
           onClick={() => setIsOpen(true)}
           className="font-mono w-30 text-right"
         >
-          {userData?.user?.username || ''}
+          {context?.user?.username || ''}
         </button>
       </div>
 

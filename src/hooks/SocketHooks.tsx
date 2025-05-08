@@ -1,23 +1,20 @@
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
 import { io, Socket } from 'socket.io-client';
-import { Data, useUser } from './UserHooks';
-import { useEffect, useRef } from 'react';
+import { Data } from './UserHooks';
 import { Rooms } from '@/types/room.types';
 
 const url = process.env.NEXT_PUBLIC_SOCKET!;
 
-export const useSocket = () => {
-  const user = useUser();
+export const useSocket = (
+  user: Data | null,
+  setUser: Dispatch<SetStateAction<Data | null>>
+) => {
   const socketRef = useRef<Socket | null>(null);
+  const [socketState, setSocketState] = useState<Socket | null>(null);
 
   useEffect(() => {
-    if (!user?.username) return;
-    if (socketRef.current) return;
-    if (!url) {
-      console.log('Empty environtment : socket-url');
-      return;
-    }
+    if (!user?.username || socketRef.current || !url) return;
 
-    console.log('user: ', user);
     const socket = io(url, {
       auth: user,
       reconnectionAttempts: 5,
@@ -25,6 +22,7 @@ export const useSocket = () => {
     });
 
     socketRef.current = socket;
+    setSocketState(socket);
 
     socket.on('connect', () => {
       console.log(`connected as ${user.clientId}`);
@@ -35,20 +33,28 @@ export const useSocket = () => {
     });
 
     socket.on('init', (data: Data) => {
-      console.log(data);
+      console.log('init data:', data);
       localStorage.setItem('data', JSON.stringify(data));
+      setUser(data);
     });
 
     socket.on('update-room', (data: Rooms) => {
       console.log('rooms: ', data);
     });
 
-    console.log('Data', { socket: socketRef.current });
+    socket.on('update-name-response', (newName: string) => {
+      console.log('Updated username:', newName);
+      const updated = { ...user, username: newName };
+      localStorage.setItem('data', JSON.stringify(updated));
+      setUser(updated);
+    });
+
     return () => {
       socket.disconnect();
       socketRef.current = null;
+      setSocketState(null);
     };
-  }, [user]);
+  }, [user?.username]);
 
-  return { socket: socketRef.current, user };
+  return socketState;
 };
