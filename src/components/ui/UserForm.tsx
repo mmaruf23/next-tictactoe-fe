@@ -1,4 +1,4 @@
-import { SocketContext } from '@/hooks/ContextProvider';
+import { SocketContext } from '@/context/SocketContext';
 import React, { useContext, useRef } from 'react';
 
 const UserForm = () => {
@@ -8,7 +8,7 @@ const UserForm = () => {
 
   const handleSave = () => {
     if (userRef.current) {
-      socketContext?.socket?.emit('update-name', userRef.current.value.trim());
+      socketContext?.emit('update-name', userRef.current.value.trim());
     }
   };
 

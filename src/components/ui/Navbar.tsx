@@ -1,9 +1,10 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import UserBar from './UserBar';
-import { SocketContext } from '@/hooks/ContextProvider';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/store/store';
 
 const Navbar = () => {
-  const context = useContext(SocketContext);
+  const username = useSelector((state: RootState) => state.user.username);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   return (
     <>
@@ -15,12 +16,16 @@ const Navbar = () => {
           onClick={() => setIsOpen(true)}
           className="font-mono w-30 text-right"
         >
-          {context?.user?.username || ''}
+          {username || ''}
         </button>
       </div>
 
       {/* Sidebar */}
-      <UserBar isOpen={isOpen} setClose={() => setIsOpen(false)} />
+      <UserBar
+        username={username || ''}
+        isOpen={isOpen}
+        setClose={() => setIsOpen(false)}
+      />
     </>
   );
 };
