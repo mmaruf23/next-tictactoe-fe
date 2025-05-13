@@ -27,6 +27,7 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
     socketInstance.on('connect', () => {
       console.log('Connected:', socketInstance.id);
     });
+
     socketInstance.on('disconnect', () => {
       console.log('Disconnected');
     });
