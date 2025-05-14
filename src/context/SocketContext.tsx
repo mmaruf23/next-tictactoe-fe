@@ -22,6 +22,7 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
       reconnectionDelay: 2000,
     });
 
+    console.log('Socket berhasil dibuat!');
     setSocket(socketInstance);
 
     socketInstance.on('connect', () => {
@@ -33,6 +34,7 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
     });
 
     return () => {
+      console.log('re-render Socket dihapus!');
       socketInstance.disconnect();
     };
   }, [url]);

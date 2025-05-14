@@ -1,14 +1,25 @@
+import { RootState } from '@/store/store';
 import React from 'react';
+import { useSelector } from 'react-redux';
 
 const RoomList = () => {
+  const rooms = useSelector((state: RootState) => state.room);
   return (
     <>
       <div>
         <ul>
-          <li>Room 1</li>
-          <li>Room 2</li>
-          <li>Room 3</li>
-          <li>Room 4</li>
+          {rooms.map((room) => {
+            return (
+              <li
+                key={room.roomId}
+                className={
+                  room.players.length == 2 ? 'text-red-400' : 'text-green-400'
+                }
+              >
+                {room.host}
+              </li>
+            );
+          })}
         </ul>
       </div>
     </>

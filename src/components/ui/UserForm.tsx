@@ -2,13 +2,13 @@ import { SocketContext } from '@/context/SocketContext';
 import React, { useContext, useRef } from 'react';
 
 const UserForm = () => {
-  const socketContext = useContext(SocketContext);
   const userRef = useRef<HTMLInputElement>(null);
-  console.log('setelah sampe userForm:', socketContext);
+  const socketContext = useContext(SocketContext);
 
   const handleSave = () => {
-    if (userRef.current) {
-      socketContext?.emit('update-name', userRef.current.value.trim());
+    if (userRef.current?.value.trim()) {
+      const value = userRef.current.value.trim();
+      socketContext?.emit('update-name', value);
     }
   };
 

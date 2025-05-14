@@ -1,4 +1,4 @@
-import { UserInitializer } from '@/components/core/UserInitializer';
+import { Initializer } from '@/components/core/UserInitializer';
 import { SocketProvider } from '@/context/SocketContext';
 import { store } from '@/store/store';
 import '@/styles/globals.css';
@@ -9,7 +9,7 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <Provider store={store}>
       <SocketProvider>
-        <UserInitializer />
+        <Initializer />
         <Component {...pageProps} />
       </SocketProvider>
     </Provider>
