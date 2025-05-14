@@ -1,9 +1,8 @@
-import { RootState } from '@/store/store';
+import { useAppSelector } from '@/store/hooks';
 import React from 'react';
-import { useSelector } from 'react-redux';
 
 const RoomList = () => {
-  const rooms = useSelector((state: RootState) => state.room);
+  const rooms = useAppSelector((state) => state.room);
   return (
     <>
       <div>
