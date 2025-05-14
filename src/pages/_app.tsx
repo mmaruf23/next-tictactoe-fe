@@ -1,4 +1,5 @@
 import { Initializer } from '@/components/core/UserInitializer';
+import ToastContainer from '@/components/ui/ToastContainer';
 import { SocketProvider } from '@/context/SocketContext';
 import { store } from '@/store/store';
 import '@/styles/globals.css';
@@ -11,6 +12,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <SocketProvider>
         <Initializer />
         <Component {...pageProps} />
+        <ToastContainer />
       </SocketProvider>
     </Provider>
   );

@@ -1,3 +1,4 @@
+import useToast from '@/hooks/useToast';
 import {
   createContext,
   ReactNode,
@@ -12,6 +13,7 @@ export const SocketContext = createContext<Socket | null>(null);
 export const useSocket = () => useContext(SocketContext);
 
 export const SocketProvider = ({ children }: { children: ReactNode }) => {
+  const toast = useToast();
   const url = process.env.NEXT_PUBLIC_SOCKET;
   const [socket, setSocket] = useState<Socket | null>(null);
   useEffect(() => {
@@ -26,7 +28,12 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
     setSocket(socketInstance);
 
     socketInstance.on('connect', () => {
+      toast.success('Connected', 2000);
       console.log('Connected:', socketInstance.id);
+    });
+
+    socketInstance.on('reconnect_failed', () => {
+      toast.error('Server error, hmph!');
     });
 
     socketInstance.on('disconnect', () => {

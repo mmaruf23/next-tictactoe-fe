@@ -1,9 +1,9 @@
 import { useSocket } from '@/context/SocketContext';
 import { useRoomSocketListaner } from '@/hooks/useRoomSocketListaner';
 import { useUserSocketListener } from '@/hooks/useUserSocketListener';
+import { useAppDispatch } from '@/store/hooks';
 import { setUser } from '@/store/userSlice';
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 
 type UserData = {
   username: string;
@@ -12,7 +12,7 @@ type UserData = {
 
 export const Initializer = () => {
   const socket = useSocket();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (!socket) return;

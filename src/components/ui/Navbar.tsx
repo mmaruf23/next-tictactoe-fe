@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import UserBar from './UserBar';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/store/store';
+import { useAppSelector } from '@/store/hooks';
 
 const Navbar = () => {
-  const username = useSelector((state: RootState) => state.user.username);
+  const username = useAppSelector((state) => state.user.username);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   return (
     <>
