@@ -20,31 +20,27 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
     if (!url) return;
     const socketInstance = io(url, {
       transports: ['websocket'],
-      reconnectionAttempts: 5,
-      reconnectionDelay: 2000,
+      reconnectionAttempts: 1,
     });
 
-    console.log('Socket berhasil dibuat!');
     setSocket(socketInstance);
 
     socketInstance.on('connect', () => {
-      toast.success('Connected', 2000);
-      console.log('Connected:', socketInstance.id);
+      toast.success('Connected!', 2000);
     });
 
-    socketInstance.on('reconnect_failed', () => {
-      toast.error('Server error, hmph!');
+    socketInstance.io.on('reconnect_failed', () => {
+      toast.error('S-Servernya lagi error, b-baka!', 5000);
     });
 
     socketInstance.on('disconnect', () => {
-      console.log('Disconnected');
+      toast.warning('Disconnected, hmph!');
     });
 
     return () => {
-      console.log('re-render Socket dihapus!');
       socketInstance.disconnect();
     };
-  }, [url]);
+  }, []);
 
   if (!socket) return <p>Connecting...</p>;
 

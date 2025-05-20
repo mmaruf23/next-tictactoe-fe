@@ -13,7 +13,6 @@ export const useRoomSocketListaner = (
   socket: Socket | null,
   dispatch: AppDispatch
 ) => {
-  console.log('RoomListener berhasil di registrasi');
   useEffect(() => {
     if (!socket) return;
     socket.on('update-room', (data: Room[]) => {

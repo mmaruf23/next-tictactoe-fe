@@ -6,8 +6,8 @@ export default function Home() {
   const isOnline = useOnline();
 
   return (
-    <>
-      <div className="flex flex-col items-center min-h-svh dark:bg-black dark:text-white">
+    <div className="flex justify-center min-h-svh">
+      <div className="md:w-3xl lg:w-5xl w-full flex flex-col items-center dark:bg-black dark:text-white">
         <Navbar />
         <div className="mt-20 font-mono text-center">
           <h1 className="text-3xl font-serif">Welcome to the game!</h1>
@@ -26,6 +26,6 @@ export default function Home() {
           <RoomList />
         </div>
       </div>
-    </>
+    </div>
   );
 }
